@@ -36,14 +36,20 @@ def emd(t, y, Nmodes=None):
     Huang et al. (1998; RSPA 454:903)
     """
 
+    t, y = map(np.asarray, [t, y])
+    if t.ndim > 1:
+        raise ValueError("t array must be 1D")
+    if y.ndim > 1:
+        raise ValueError("y array must be 1D")
+
     c = np.empty([len(y), 0])
-    h, r = [y]*2
+    h, r = map(np.copy, [y, y])
     hold = np.zeros(y.shape)
     while True:
         try:
             while True:
-                h = sift(t,h)
-                var = np.sum((h-hold)**2/hold**2)
+                h = sift(t, h)
+                var = np.sum((h-hold)**2 / hold**2)
                 if var < 0.25:
                     c = np.append(c, h[:, np.newaxis], axis=1)
                     r = r - h
