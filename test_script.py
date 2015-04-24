@@ -18,6 +18,7 @@ y += amp / 5.0
 
 # and now add in a sine
 period = N / 10.0
+
 phase = np.random.uniform(0.0, 2*np.pi)
 y += (amp / 10.0) * np.sin(2*np.pi * t / period + phase)
 
@@ -27,7 +28,9 @@ y += np.random.normal(0.0, amp/50.0, N)
 
 #%% ---------------------------------------------------------------------------
 # DECOMPOSE
-c, r = emd.emd(t, y)
+# choose from sawtooth EMd or "standard"
+#c, r = emd.emd(t, y)
+c, r = emd.saw_emd(t, y, bc='extrap')
 
 #%% ---------------------------------------------------------------------------
 # PLOT
